@@ -100,7 +100,16 @@ def resolve_is_aggregate(values):
 
 
 def format_quotes(value, quote_char):
-    return "{quote}{value}{quote}".format(value=value, quote=quote_char or "")
+    pair = {
+        '[': ']', 
+        '{': '}', 
+        '(': ')', 
+        '<': '>', 
+    }
+    if quote_char in pair.keys():
+        return '{start}{value}{end}'.format(value=value, start=quote_char, end=pair[quote_char])
+    else: 
+        return '{quote}{value}{quote}'.format(value=value, quote=quote_char or '')
 
 
 def format_alias_sql(sql, alias, quote_char=None, alias_quote_char=None, **kwargs):
